@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Company
 {
-    class Calculator
+    class Salary_Calculator
     {
         public static void Main(string[] args)
         {
