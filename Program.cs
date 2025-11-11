@@ -1,19 +1,28 @@
 ﻿using System;
 namespace Company
 {
-    class Salary_Calculator
+    class SalaryCalculator
     {
         public static void Main(string[] args)
         {
             Employee[] employees = getInput();
 
-            Calculate_salary(employees);
+            CalculateSalary(employees);
+
+            Console.WriteLine("\nEmployee Details with Calculated Salaries:");
 
             foreach (Employee emp in employees)
             {
                 emp.DisplayInfo();
                 Console.WriteLine();
             }
+        }
+
+        public static String Capitalize(string str)
+        {
+            if (string.IsNullOrEmpty(str))
+                return str;
+            return char.ToUpper(str[0]) + str.Substring(1).ToLower();
         }
 
         public static Employee[] getInput()
@@ -24,15 +33,15 @@ namespace Company
             for (int i = 0; i < employeesCount; i++)
             {
                 employees[i] = new Employee();
-                Console.WriteLine($"Enter details for employee {i + 1}");
+                Console.WriteLine($"\nEnter details for employee {i + 1}");
                 Console.Write("ID: ");
-                employees[i].Id = Convert.ToInt32(Console.ReadLine());
+                employees[i].Id = Console.ReadLine();
                 Console.Write("First Name: ");
-                employees[i].FName = Console.ReadLine();
+                employees[i].FName = Capitalize(Console.ReadLine());
                 Console.Write("Last Name: ");
-                employees[i].LName = Console.ReadLine();
+                employees[i].LName = Capitalize(Console.ReadLine());
                 Console.Write("Position: ");
-                employees[i].Position = Console.ReadLine();
+                employees[i].Position = Capitalize(Console.ReadLine());
                 Console.Write("Age: ");
                 employees[i].Age = Convert.ToInt32(Console.ReadLine());
                 //Console.Write("Salary: ");
@@ -46,30 +55,30 @@ namespace Company
             return employees;
         }
 
-        public static void Calculate_salary(Employee[] employees)
+        public static void CalculateSalary(Employee[] employees)
         {
-            foreach(Employee emp in employees)
+            foreach (Employee emp in employees)
             {
                 switch (emp.Position.ToLower())
                 {
                     case "manager":
-                        emp.Salary = 8000;
+                        emp.Salary = 60000;
                         emp.Bonus_percentage += 10;
                         break;
                     case "team leader":
-                        emp.Salary = 6000;
+                        emp.Salary = 45000;
                         emp.Bonus_percentage += 5;
                         break;
                     case "staff":
-                        emp.Salary = 5000;
+                        emp.Salary = 30000;
                         emp.Bonus_percentage += 0;
                         break;
                     case "intern":
-                        emp.Salary = 2000;
+                        emp.Salary = 12000;
                         emp.Bonus_percentage += 0;
                         break;
                     default:
-                        emp.Salary = 3000;
+                        emp.Salary = 8000;
                         break;
                 }
 
@@ -77,7 +86,7 @@ namespace Company
                 {
                     emp.Bonus_percentage += 10;
                 }
-                else if ((emp.WorkDuration/12 >= 1) && (emp.WorkDuration/12 <= 5) )
+                else if ((emp.WorkDuration/12 >= 5) && (emp.WorkDuration/12 <= 9) )
                 {
                     emp.Bonus_percentage += 5;
                 }
@@ -85,12 +94,14 @@ namespace Company
                 {
                     emp.Bonus_percentage += 0;
                 }
+
+                emp.Salary += (emp.Salary * emp.Bonus_percentage) / 100;
             }
         }
     }
     class Employee
     {
-        private int id;
+        private string id;
         private string firstName;
         private string lastName;
         private string position;
@@ -101,7 +112,7 @@ namespace Company
         private int bonus_percentage;
         public Employee()
         {
-            this.id = 0;
+            this.id = "null";
             this.firstName = "null";
             this.lastName = "null";
             this.position = "null";
@@ -114,16 +125,16 @@ namespace Company
         public void DisplayInfo()
         {
             Console.WriteLine($"\nID: {Id} Name: {FName} {LName}, {Age} years old\nPosition: {Position}, salary: {Salary}\nwork duration: {WorkDuration}");
-            Console.Write("====================");
+            Console.Write("--------------------");
         }
 
-        public int Id
+        public string Id
         {
             get { return id; }
             set
             {
-                if (value <= 0)
-                    { throw new ArgumentException("ID cannot be negative. Please enter positive number."); }
+                if (value == "")
+                    { throw new ArgumentException("ID cannot be empty."); }
                 else
                 {
                     id = value;
