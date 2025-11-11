@@ -46,9 +46,46 @@ namespace Company
             return employees;
         }
 
-        public static void Calculate_salary(Employee[] emp)
+        public static void Calculate_salary(Employee[] employees)
         {
-            //return 0;
+            foreach(Employee emp in employees)
+            {
+                switch (emp.Position.ToLower())
+                {
+                    case "manager":
+                        emp.Salary = 8000;
+                        emp.Bonus_percentage += 10;
+                        break;
+                    case "team leader":
+                        emp.Salary = 6000;
+                        emp.Bonus_percentage += 5;
+                        break;
+                    case "staff":
+                        emp.Salary = 5000;
+                        emp.Bonus_percentage += 0;
+                        break;
+                    case "intern":
+                        emp.Salary = 2000;
+                        emp.Bonus_percentage += 0;
+                        break;
+                    default:
+                        emp.Salary = 3000;
+                        break;
+                }
+
+                if (emp.WorkDuration/12 > 10)
+                {
+                    emp.Bonus_percentage += 10;
+                }
+                else if ((emp.WorkDuration/12 >= 1) && (emp.WorkDuration/12 <= 5) )
+                {
+                    emp.Bonus_percentage += 5;
+                }
+                else
+                {
+                    emp.Bonus_percentage += 0;
+                }
+            }
         }
     }
     class Employee
@@ -61,16 +98,18 @@ namespace Company
         private double salary;
         //private DateTime hireDate;
         private int workDuration; // in months
+        private int bonus_percentage;
         public Employee()
         {
             this.id = 0;
-            this.firstName = null;
-            this.lastName = null;
-            this.position = null;
+            this.firstName = "null";
+            this.lastName = "null";
+            this.position = "null";
             this.age = 0;
             this.salary = 0.0;
             //this.hireDate = DateTime.MinValue;
             this.workDuration = 0;
+            this.bonus_percentage = 0;
         }
         public void DisplayInfo()
         {
@@ -94,7 +133,17 @@ namespace Company
         public string FName
         {
             get { return firstName; }
-            set { firstName = value; }
+            set
+            {
+                if (value == "")
+                {
+                    throw new ArgumentException("First name cannot be empty.");
+                }
+                else
+                {
+                    firstName = value;
+                }
+            }
         }
         public string LName
         {
@@ -147,6 +196,19 @@ namespace Company
                 else
                 {
                     workDuration = value;
+                }
+            }
+        }
+        public int Bonus_percentage
+        {
+            get { return bonus_percentage; }
+            set
+            {
+                if (value < 0 || value > 100)
+                    { throw new ArgumentException("Bonus percentage must be between 0 and 100."); }
+                else
+                {
+                    bonus_percentage = value;
                 }
             }
         }
