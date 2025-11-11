@@ -5,10 +5,18 @@ namespace Company
     {
         public static void Main(string[] args)
         {
-            getInput();
+            Employee[] employees = getInput();
+
+            Calculate_salary(employees);
+
+            foreach (Employee emp in employees)
+            {
+                emp.DisplayInfo();
+                Console.WriteLine();
+            }
         }
 
-        public static void getInput()
+        public static Employee[] getInput()
         {
             Console.Write("Enter number of employees: ");
             int employeesCount = Convert.ToInt32(Console.ReadLine());
@@ -35,6 +43,12 @@ namespace Company
                 employees[i].WorkDuration = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("====================");
             }
+            return employees;
+        }
+
+        public static void Calculate_salary(Employee[] emp)
+        {
+            //return 0;
         }
     }
     class Employee
@@ -60,7 +74,8 @@ namespace Company
         }
         public void DisplayInfo()
         {
-            Console.WriteLine($"ID: {Id} Name: {FName} {LName}, {Age} years old\nPosition: {Position}, salary: {Salary}\nwork duration: {WorkDuration}");
+            Console.WriteLine($"\nID: {Id} Name: {FName} {LName}, {Age} years old\nPosition: {Position}, salary: {Salary}\nwork duration: {WorkDuration}");
+            Console.Write("====================");
         }
 
         public int Id
