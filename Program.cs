@@ -5,7 +5,7 @@ namespace Calculation
     {
         public static void Main(string[] args)
         {
-            Employee[] employees = getInput();
+            Employee[] employees = GetInput();
 
             CalculateSalary(employees);
 
