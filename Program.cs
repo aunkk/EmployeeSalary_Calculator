@@ -25,7 +25,7 @@ namespace Calculation
             return char.ToUpper(str[0]) + str.Substring(1).ToLower();
         }
 
-        public static Employee[] getInput()
+        public static Employee[] GetInput()
         {
             Console.Write("Enter number of employees: ");
             int employeesCount = Convert.ToInt32(Console.ReadLine());
@@ -211,7 +211,6 @@ namespace Calculation
         private int position;
         private int age;
         private double salary;
-        //private DateTime hireDate;
         private int workDuration; // in months
         private int bonus_percentage;
         public Employee()
@@ -222,7 +221,6 @@ namespace Calculation
             this.position = 0;
             this.age = 0;
             this.salary = 0.0;
-            //this.hireDate = DateTime.MinValue;
             this.workDuration = 0;
             this.bonus_percentage = 0;
         }
