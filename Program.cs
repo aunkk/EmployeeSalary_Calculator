@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Company
+namespace Calculation
 {
     class SalaryCalculator
     {
@@ -29,51 +29,155 @@ namespace Company
         {
             Console.Write("Enter number of employees: ");
             int employeesCount = Convert.ToInt32(Console.ReadLine());
-            Employee[] employees = new Employee[employeesCount];
+            Employee[] emp = new Employee[employeesCount];
             for (int i = 0; i < employeesCount; i++)
             {
-                employees[i] = new Employee();
+                emp[i] = new Employee();
                 Console.WriteLine($"\nEnter details for employee {i + 1}");
-                Console.Write("ID: ");
-                employees[i].Id = Console.ReadLine();
-                Console.Write("First Name: ");
-                employees[i].FName = Capitalize(Console.ReadLine());
-                Console.Write("Last Name: ");
-                employees[i].LName = Capitalize(Console.ReadLine());
-                Console.Write("Position: ");
-                employees[i].Position = Capitalize(Console.ReadLine());
-                Console.Write("Age: ");
-                employees[i].Age = Convert.ToInt32(Console.ReadLine());
+                // >>ID Input<<
+                while (true)
+                {
+                    try
+                    {
+                        Console.Write("ID: ");
+                        string idInput = Console.ReadLine();
+                        emp[i].Id = idInput;
+                        break; // Exit loop if input is valid
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+                //Console.Write("ID: ");
+                //employees[i].Id = Console.ReadLine();
+
+                // >>First Name Input<<
+                while (true)
+                {
+                    try
+                    {
+                        Console.Write("First Name: ");
+                        string fnameInput = Console.ReadLine();
+                        emp[i].FName = Capitalize(fnameInput);
+                        break; // Exit loop if input is valid
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+                //Console.Write("First Name: ");
+                //emp[i].FName = Capitalize(Console.ReadLine());
+
+                // >>Last Name Input<<
+                while (true)
+                {
+                    try
+                    {
+                        Console.Write("Last Name: ");
+                        string lnameInput = Console.ReadLine();
+                        emp[i].LName = Capitalize(lnameInput);
+                        break; // Exit loop if input is valid
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+                //Console.Write("Last Name: ");
+                //emp[i].LName = Capitalize(Console.ReadLine());
+
+                // >>Position Input<<
+                while (true)
+                {
+                    try
+                    {
+                        Console.WriteLine("Position List:");
+                        for (int pos = 0; pos < Company.positionWork.Length; pos++)
+                        {
+                            Console.WriteLine($"{pos + 1} : {Company.positionWork[pos]}");
+                        }
+
+                        Console.Write("Position (1-4): ");
+                        int positionInput = Convert.ToInt32(Console.ReadLine());
+                        emp[i].Position = positionInput;   // ให้ property เช็ค validate
+                        break;
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+
+                //Console.Write("Position: ");
+                //emp[i].Position = Convert.ToInt32(Console.ReadLine());
+
+                // >>Age Input<<
+                while (true)
+                {
+                    try
+                    {
+                        Console.Write("Age: ");
+                        int ageInput = Convert.ToInt32(Console.ReadLine());
+                        emp[i].Age = ageInput;
+                        break; // Exit loop if input is valid
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+                //Console.Write("Age: ");
+                //emp[i].Age = Convert.ToInt32(Console.ReadLine());
+
                 //Console.Write("Salary: ");
                 //employees[i].Salary = Convert.ToDouble(Console.ReadLine());
                 //Console.Write("Hire Date (yyyy-mm-dd): ");
                 //employees[i].HireDate = DateTime.Parse(Console.ReadLine());
-                Console.Write("Work Duration (in months): ");
-                employees[i].WorkDuration = Convert.ToInt32(Console.ReadLine());
+
+                // >>Work Duration Input<<
+                while (true)
+                {
+                    try
+                    {
+                        Console.Write("Work Duration (in months): ");
+                        int workDurationInput = Convert.ToInt32(Console.ReadLine());
+                        emp[i].WorkDuration = workDurationInput;
+                        break; // Exit loop if input is valid
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+                //Console.Write("Work Duration (in months): ");
+                //emp[i].WorkDuration = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("====================");
             }
-            return employees;
+            return emp;
         }
 
         public static void CalculateSalary(Employee[] employees)
         {
             foreach (Employee emp in employees)
             {
-                switch (emp.Position.ToLower())
+                int year = emp.WorkDuration / 12;
+                switch (emp.Position)
                 {
-                    case "manager":
+                    case 1:
                         emp.Salary = 60000;
                         emp.Bonus_percentage += 10;
                         break;
-                    case "team leader":
+                    case 2:
                         emp.Salary = 45000;
                         emp.Bonus_percentage += 5;
                         break;
-                    case "staff":
+                    case 3:
                         emp.Salary = 30000;
                         emp.Bonus_percentage += 0;
                         break;
-                    case "intern":
+                    case 4:
                         emp.Salary = 12000;
                         emp.Bonus_percentage += 0;
                         break;
@@ -82,11 +186,11 @@ namespace Company
                         break;
                 }
 
-                if (emp.WorkDuration/12 > 10)
+                if (year > 10)
                 {
                     emp.Bonus_percentage += 10;
                 }
-                else if ((emp.WorkDuration/12 >= 5) && (emp.WorkDuration/12 <= 9) )
+                else if ((year/12 >= 5) && (year/12 <= 9) )
                 {
                     emp.Bonus_percentage += 5;
                 }
@@ -104,7 +208,7 @@ namespace Company
         private string id;
         private string firstName;
         private string lastName;
-        private string position;
+        private int position;
         private int age;
         private double salary;
         //private DateTime hireDate;
@@ -115,7 +219,7 @@ namespace Company
             this.id = "null";
             this.firstName = "null";
             this.lastName = "null";
-            this.position = "null";
+            this.position = 0;
             this.age = 0;
             this.salary = 0.0;
             //this.hireDate = DateTime.MinValue;
@@ -159,12 +263,32 @@ namespace Company
         public string LName
         {
             get { return lastName; }
-            set { lastName = value; }
+            set
+            {
+                if (value == "")
+                {
+                    throw new ArgumentException("Last name cannot be empty.");
+                }
+                else
+                {
+                    lastName = value;
+                }
+            }
         }
-        public string Position
+        public int Position
         {
             get { return position; }
-            set { position = value; }
+            set
+            {
+                if (value <= 0)
+                { throw new ArgumentException("Please enter positive number."); }
+                else if (value > 4)
+                { throw new ArgumentException("Please enter valid position number."); }
+                else
+                {
+                    position = value;
+                }
+            }
         }
         public int Age
         {
@@ -225,4 +349,10 @@ namespace Company
         }
 
     }
+
+    class Company
+    {
+        public static string[] positionWork = { "Manager", "Team Leader", "Staff", "Intern" };
+    }
+
 }
