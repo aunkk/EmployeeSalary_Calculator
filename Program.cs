@@ -49,8 +49,6 @@ namespace Calculation
                         Console.WriteLine(ex.Message);
                     }
                 }
-                //Console.Write("ID: ");
-                //employees[i].Id = Console.ReadLine();
 
                 // >>First Name Input<<
                 while (true)
@@ -67,8 +65,6 @@ namespace Calculation
                         Console.WriteLine(ex.Message);
                     }
                 }
-                //Console.Write("First Name: ");
-                //emp[i].FName = Capitalize(Console.ReadLine());
 
                 // >>Last Name Input<<
                 while (true)
@@ -85,8 +81,6 @@ namespace Calculation
                         Console.WriteLine(ex.Message);
                     }
                 }
-                //Console.Write("Last Name: ");
-                //emp[i].LName = Capitalize(Console.ReadLine());
 
                 // >>Position Input<<
                 while (true)
@@ -101,7 +95,7 @@ namespace Calculation
 
                         Console.Write("Position (1-4): ");
                         int positionInput = Convert.ToInt32(Console.ReadLine());
-                        emp[i].Position = positionInput;   // ให้ property เช็ค validate
+                        emp[i].Position = positionInput;
                         break;
                     }
                     catch (ArgumentException ex)
@@ -109,9 +103,6 @@ namespace Calculation
                         Console.WriteLine(ex.Message);
                     }
                 }
-
-                //Console.Write("Position: ");
-                //emp[i].Position = Convert.ToInt32(Console.ReadLine());
 
                 // >>Age Input<<
                 while (true)
@@ -128,13 +119,6 @@ namespace Calculation
                         Console.WriteLine(ex.Message);
                     }
                 }
-                //Console.Write("Age: ");
-                //emp[i].Age = Convert.ToInt32(Console.ReadLine());
-
-                //Console.Write("Salary: ");
-                //employees[i].Salary = Convert.ToDouble(Console.ReadLine());
-                //Console.Write("Hire Date (yyyy-mm-dd): ");
-                //employees[i].HireDate = DateTime.Parse(Console.ReadLine());
 
                 // >>Work Duration Input<<
                 while (true)
@@ -151,8 +135,6 @@ namespace Calculation
                         Console.WriteLine(ex.Message);
                     }
                 }
-                //Console.Write("Work Duration (in months): ");
-                //emp[i].WorkDuration = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("====================");
             }
             return emp;
@@ -314,11 +296,6 @@ namespace Calculation
                 }
             }
         }
-        //public DateTime HireDate
-        //{
-        //    get { return hireDate; }
-        //    set { hireDate = value; }
-        //}
         public int WorkDuration
         {
             get { return workDuration; }
