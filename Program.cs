@@ -98,6 +98,10 @@ namespace Calculation
                         emp[i].Position = positionInput;
                         break;
                     }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("Please enter a valid number.");
+                    }
                     catch (ArgumentException ex)
                     {
                         Console.WriteLine(ex.Message);
@@ -113,6 +117,10 @@ namespace Calculation
                         int ageInput = Convert.ToInt32(Console.ReadLine());
                         emp[i].Age = ageInput;
                         break; // Exit loop if input is valid
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("Please enter a valid number.");
                     }
                     catch (ArgumentException ex)
                     {
@@ -130,6 +138,10 @@ namespace Calculation
                         emp[i].WorkDuration = workDurationInput;
                         break; // Exit loop if input is valid
                     }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("Please enter a valid number.");
+                    }
                     catch (ArgumentException ex)
                     {
                         Console.WriteLine(ex.Message);
@@ -140,48 +152,50 @@ namespace Calculation
             return emp;
         }
 
-        public static void CalculateSalary(Employee[] employees)
+        public static void CalculateSalary(Employee[] emp)
         {
-            foreach (Employee emp in employees)
+            for (int i=0; i < emp.Length; i++)
             {
-                int year = emp.WorkDuration / 12;
-                switch (emp.Position)
+                emp[i].BonusPercentage = 0;
+
+                int year = emp[i].WorkDuration / 12;
+                switch (emp[i].Position)
                 {
                     case 1:
-                        emp.Salary = 60000;
-                        emp.Bonus_percentage += 10;
+                        emp[i].Salary = 60000;
+                        emp[i].BonusPercentage += 10;
                         break;
                     case 2:
-                        emp.Salary = 45000;
-                        emp.Bonus_percentage += 5;
+                        emp[i].Salary = 45000;
+                        emp[i].BonusPercentage += 5;
                         break;
                     case 3:
-                        emp.Salary = 30000;
-                        emp.Bonus_percentage += 0;
+                        emp[i].Salary = 30000;
+                        emp[i].BonusPercentage += 0;
                         break;
                     case 4:
-                        emp.Salary = 12000;
-                        emp.Bonus_percentage += 0;
+                        emp[i].Salary = 12000;
+                        emp[i].BonusPercentage += 0;
                         break;
                     default:
-                        emp.Salary = 8000;
+                        emp[i].Salary = 8000;
                         break;
                 }
 
                 if (year > 10)
                 {
-                    emp.Bonus_percentage += 10;
+                    emp[i].BonusPercentage += 10;
                 }
-                else if ((year/12 >= 5) && (year/12 <= 9) )
+                else if ((year >= 5) && (year <= 9) )
                 {
-                    emp.Bonus_percentage += 5;
+                    emp[i].BonusPercentage += 5;
                 }
                 else
                 {
-                    emp.Bonus_percentage += 0;
+                    emp[i].BonusPercentage += 0;
                 }
 
-                emp.Salary += (emp.Salary * emp.Bonus_percentage) / 100;
+                emp[i].Salary += (emp[i].Salary * emp[i].BonusPercentage) / 100;
             }
         }
     }
@@ -194,7 +208,7 @@ namespace Calculation
         private int age;
         private double salary;
         private int workDuration; // in months
-        private int bonus_percentage;
+        private int bonusPercentage;
         public Employee()
         {
             this.id = "null";
@@ -204,11 +218,14 @@ namespace Calculation
             this.age = 0;
             this.salary = 0.0;
             this.workDuration = 0;
-            this.bonus_percentage = 0;
+            this.bonusPercentage = 0;
         }
         public void DisplayInfo()
         {
-            Console.WriteLine($"\nID: {Id} Name: {FName} {LName}, {Age} years old\nPosition: {Position}, salary: {Salary}\nwork duration: {WorkDuration}");
+            Console.WriteLine(
+                $"\nID: {Id} Name: {FName} {LName}, {Age} years old" +
+                $"\nPosition: {Company.positionWork[Position-1]}, salary: {Salary}" +
+                $"\nwork duration: {WorkDuration}, bonus: {BonusPercentage}%");
             Console.Write("--------------------");
         }
 
@@ -218,6 +235,8 @@ namespace Calculation
             set
             {
                 if (value == "")
+                    { throw new ArgumentException("ID cannot be empty."); }
+                if (string.IsNullOrWhiteSpace(value))
                     { throw new ArgumentException("ID cannot be empty."); }
                 else
                 {
@@ -231,9 +250,9 @@ namespace Calculation
             set
             {
                 if (value == "")
-                {
-                    throw new ArgumentException("First name cannot be empty.");
-                }
+                    { throw new ArgumentException("First name cannot be empty."); }
+                if (string.IsNullOrWhiteSpace(value))
+                    { throw new ArgumentException("First name cannot be empty."); }
                 else
                 {
                     firstName = value;
@@ -246,9 +265,9 @@ namespace Calculation
             set
             {
                 if (value == "")
-                {
-                    throw new ArgumentException("Last name cannot be empty.");
-                }
+                    { throw new ArgumentException("Last name cannot be empty."); }
+                if (string.IsNullOrWhiteSpace(value))
+                    { throw new ArgumentException("Last name cannot be empty."); }
                 else
                 {
                     lastName = value;
@@ -309,16 +328,16 @@ namespace Calculation
                 }
             }
         }
-        public int Bonus_percentage
+        public int BonusPercentage
         {
-            get { return bonus_percentage; }
+            get { return bonusPercentage; }
             set
             {
                 if (value < 0 || value > 100)
                     { throw new ArgumentException("Bonus percentage must be between 0 and 100."); }
                 else
                 {
-                    bonus_percentage = value;
+                    bonusPercentage = value;
                 }
             }
         }
